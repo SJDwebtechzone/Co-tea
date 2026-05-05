@@ -1,0 +1,455 @@
+/* =========================================
+   FIXED NORMAL SIZE UI (NOT ENLARGED)
+   REPLACE FULL App.css WITH THIS
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* RESET */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  background: #ffffff;
+  color: #222;
+}
+
+body {
+  font-size: 16px;   /* IMPORTANT: prevents enlarged UI */
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ROOT COLORS */
+
+:root {
+  --green: #7bb300;
+  --green-dark: #5e8700;
+  --brown: #6b3b12;
+  --black: #161616;
+  --white: #ffffff;
+  --soft: #f8f6ef;
+  --cream: #fcfaf5;
+}
+
+/* CONTAINER */
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* =================================
+   NAVBAR
+================================= */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 85px;
+  background: #ffffff;
+  z-index: 999;
+  border-bottom: 1px solid #eee;
+}
+
+.navbar-container {
+  height: 100%;
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-left {
+  width: 180px;
+}
+
+.nav-logo {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-logo img {
+  height: 48px;   /* FIXED NORMAL SIZE */
+  width: auto;
+  object-fit: contain;
+}
+
+.nav-right {
+  width: 180px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.contact-btn {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.contact-btn:hover {
+  background: var(--green-dark);
+}
+
+/* =================================
+   HERO SECTION
+================================= */
+
+.hero {
+  margin-top: 85px;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      rgba(20, 40, 20, 0.55),
+      rgba(20, 40, 20, 0.35)
+    ),
+    url("/banner.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-content {
+  padding: 80px 0;
+}
+
+.hero-text {
+  max-width: 700px;
+  color: white;
+}
+
+.hero-tag {
+  display: inline-block;
+  padding: 12px 26px;
+  border: 1px solid rgba(200,255,120,0.5);
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #d8ff8f;
+  margin-bottom: 24px;
+}
+
+.hero-text h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 58px;   /* FIXED */
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.hero-text h1 span {
+  color: #c7ff4d;
+}
+
+.hero-text p {
+  font-size: 20px;
+  max-width: 650px;
+  margin-bottom: 30px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* BUTTONS */
+
+.btn {
+  padding: 15px 30px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn.primary {
+  background: var(--green);
+  color: white;
+}
+
+.btn.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn.white {
+  background: white;
+  color: var(--brown);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =================================
+   SECTIONS
+================================= */
+
+.section {
+  padding: 90px 0;
+}
+
+.soft-bg {
+  background: #faf8f2;
+}
+
+.center {
+  text-align: center;
+}
+
+.section-tag {
+  font-size: 14px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.section h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 52px;   /* FIXED */
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: #1f1b18;
+}
+
+.green-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 24px;
+}
+
+.quote-box {
+  border-left: 4px solid var(--green);
+  padding-left: 20px;
+  margin-bottom: 30px;
+
+  font-family: "Playfair Display", serif;
+  font-size: 24px;
+  font-style: italic;
+  color: var(--brown);
+}
+
+.section-text {
+  font-size: 19px;
+  line-height: 1.9;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* =================================
+   BENEFITS
+================================= */
+
+.benefits-grid {
+  margin-top: 50px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.benefit-card {
+  background: #fffdf8;
+  border: 1px solid #eee2cc;
+  border-radius: 24px;
+  padding: 36px;
+  text-align: left;
+}
+
+.icon-box {
+  width: 68px;
+  height: 68px;
+  border-radius: 18px;
+  background: var(--green);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.benefit-card h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 32px;
+  color: var(--brown);
+  margin-bottom: 18px;
+}
+
+.benefit-card p {
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+/* =================================
+   EXPERIENCE
+================================= */
+
+.experience {
+  background: #173d00;
+  color: white;
+  padding: 100px 0;
+}
+
+.experience h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 52px;
+  margin-bottom: 24px;
+}
+
+.experience p {
+  font-size: 20px;
+  line-height: 1.9;
+  margin-bottom: 28px;
+}
+
+.experience-box {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  padding: 28px;
+  max-width: 850px;
+  font-size: 18px;
+  font-style: italic;
+}
+
+/* =================================
+   CTA
+================================= */
+
+.cta {
+  width: 90%;
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 90px 40px;
+  border-radius: 28px;
+  text-align: center;
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #8d430c,
+    #6f8f00
+  );
+}
+
+.cta h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 52px;
+  margin-bottom: 20px;
+}
+
+.cta p {
+  font-size: 22px;
+  margin-bottom: 30px;
+  font-style: italic;
+}
+
+/* =================================
+   FOOTER
+================================= */
+
+.footer {
+  background: #050505;
+  color: white;
+  padding: 70px 0 40px;
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer h2 {
+  font-size: 42px;
+  margin-bottom: 16px;
+}
+
+.footer p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 24px;
+}
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 992px) {
+  .hero-text h1 {
+    font-size: 42px;
+  }
+
+  .section h2,
+  .experience h2,
+  .cta h2 {
+    font-size: 34px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-logo img {
+    height: 40px;
+  }
+
+  .hero-text p,
+  .section-text,
+  .benefit-card p {
+    font-size: 16px;
+  }
+}

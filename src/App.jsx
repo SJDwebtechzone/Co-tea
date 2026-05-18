@@ -60,13 +60,13 @@ const styles = `
     transform: translateX(-50%);
   }
   .nav-logo img {
-    height: 110px;
+    height: 250px;
     transition: height 0.4s ease;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
     display: block;
   }
   .nav.scrolled .nav-logo img {
-    height: 80px;
+    height: 150px;
   }
   .nav-left { flex: 1; }
   .nav-right { flex: 1; display: flex; justify-content: flex-end; }
@@ -500,22 +500,36 @@ const styles = `
 
   /* CTA */
   .cta-section {
-    background: var(--beige);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+  background: var(--beige);
+
+  width: 100%;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
   .cta-box {
-    background: linear-gradient(135deg, #0b2e13, #1f5c2c);
-    border-radius: 28px;
-    padding: 80px 72px;
-    max-width: 800px;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 32px 80px rgba(106,50,10,0.35);
-  }
+  background: linear-gradient(
+    135deg,
+    #0b2e13,
+    #1f5c2c
+  );
+
+  border-radius: 0;
+
+  padding: 120px 72px;
+
+  width: 100vw;
+  max-width: 100vw;
+
+  position: relative;
+  overflow: hidden;
+
+  box-shadow: none;
+}
   .cta-box::before {
     content: '';
     position: absolute;
@@ -718,31 +732,82 @@ function Reveal({ children, delay = 0, style = {} }) {
 }
 
 export default function App() {
+  const [showContact, setShowContact] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+const handleSubmit = async (e) => {
 
+  e.preventDefault();
+
+  const formData = {
+    name,
+    email,
+    message,
+  };
+
+  try {
+
+    const response = await fetch("http://localhost:5000/send-mail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+
+      alert("Message Sent");
+
+      setName("");
+      setEmail("");
+      setMessage("");
+
+    } else {
+
+      alert("Failed");
+    }
+
+  } catch (error) {
+
+    console.log(error);
+  }
+};
   return (
     <>
       <style>{styles}</style>
 
       {/* NAV */}
-      <nav className={`nav ${scrolled ? "scrolled" : ""}`}>
-        <div className="nav-left" />
-        <div className="nav-logo">
-          <img src={LOGO_SRC} alt="CO-TEA Logo" />
-        </div>
-        <div className="nav-right">
-          <a href="#footer" className="nav-contact">
-            <span className="nav-contact-icon">✉️</span>
-            Contact Us
-          </a>
-        </div>
-      </nav>
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+
+  <div className="navbar-container">
+
+    <div className="nav-logo">
+      <img src={LOGO_SRC} alt="CO-TEA Logo" />
+    </div>
+
+   <div className="nav-right">
+  <button
+    className="contact-btn"
+    onClick={() => setShowContact(true)}
+  >
+    Contact Us
+  </button>
+</div>
+
+  </div>
+
+</nav>
 
       {/* HERO */}
       <section className="hero" id="home">
@@ -759,7 +824,6 @@ export default function App() {
           </p>
           <div className="hero-btns">
             <button className="btn-primary" onClick={() => document.getElementById("cta").scrollIntoView({behavior:"smooth"})}>Try CO-TEA</button>
-            <button className="btn-outline" onClick={() => document.getElementById("about").scrollIntoView({behavior:"smooth"})}>Learn More</button>
           </div>
         </div>
         <div className="hero-scroll">
@@ -797,8 +861,8 @@ export default function App() {
           <Reveal>
             <span className="section-label">Why CO-TEA?</span>
             <h2 className="section-title">The world's first taste<br/>and energy.</h2>
-            <p className="about-tagline">Beneficially good for heart.</p>
-            <p className="about-highlight">CO-TEA is world's first combined taste of Coffee and Tea</p>
+            <p className="about-tagline">Naturally calming. Smoothly energizing.</p>
+            <p className="about-highlight">“CO-TEA combines the clarity of coffee with the calmness of tea in one beautifully balanced cup.”</p>
             <p className="section-body">
               Can't choose between Tea or Coffee in the morning? Introducing the taste of tea and coffee to everyday life. Calmness of tea and lasting energy of coffee now combined to provide calm and preserved energy all day with a cup of CO-TEA.
             </p>
@@ -818,14 +882,14 @@ export default function App() {
       {/* BENEFITS */}
       <section className="benefits" id="benefits">
         <Reveal style={{textAlign:"center"}}>
-          <span className="section-label">What Makes Us Different</span>
-          <h2 className="section-title" style={{textAlign:"center"}}>Crafted for the Modern You</h2>
+          <span className="section-label">WHY PEOPLE LOVE CO-TEA</span>
+          <h2 className="section-title" style={{textAlign:"center"}}>Crafted for the Modern Lifestyle</h2>
         </Reveal>
         <div className="benefits-grid">
           {[
-            { icon: "⚡", title: "Calm + Energy", text: "Tea keeps you calm while coffee boosts focus—CO-TEA brings both together beautifully for a sustained, clear-headed experience." },
-            { icon: "🌊", title: "Smooth Experience", text: "Enjoy long-lasting smooth energy without the heavy crash later in the day. Steady focus from morning to evening." },
-            { icon: "✨", title: "Unique Taste", text: "A premium layered flavour with soothing aroma and a rich refreshing finish that lingers beautifully on the palate." },
+            { icon: "⚡", title: "Calm + Focus", text: "Tea keeps you calm while coffee boosts focus—CO-TEA brings both together beautifully for a sustained, clear-headed experience." },
+            { icon: "🌊", title: "Smooth Energy", text: "Enjoy long-lasting smooth energy without the heavy crash later in the day. Steady focus from morning to evening." },
+            { icon: "✨", title: "Premium Taste", text: "A premium layered flavour with soothing aroma and a rich refreshing finish that lingers beautifully on the palate." },
           ].map((b, i) => (
             <Reveal key={i} delay={i * 120}>
               <div className="benefit-card">
@@ -837,7 +901,80 @@ export default function App() {
           ))}
         </div>
       </section>
+{/* HOW IT WORKS */}
 
+<section className="how-it-works section">
+
+  <div className="container">
+
+    <p className="section-tag center">
+      THE SCIENCE OF BALANCE
+    </p>
+
+    <h2 className="center">
+      How CO-TEA Works
+    </h2>
+
+    <p className="section-text center">
+      CO-TEA combines the calming qualities of tea
+      with the energizing power of coffee to create
+      a smoother and more balanced daily experience.
+    </p>
+
+    <div className="works-grid">
+
+      <div className="work-card">
+
+        <div className="work-number">
+          01
+        </div>
+
+        <h3>Tea Calms the Mind</h3>
+
+        <p>
+          Natural tea compounds help create a calmer,
+          smoother feeling while reducing overstimulation.
+        </p>
+
+      </div>
+
+      <div className="work-card">
+
+        <div className="work-number">
+          02
+        </div>
+
+        <h3>Coffee Boosts Focus</h3>
+
+        <p>
+          Premium coffee enhances alertness,
+          concentration, and mental clarity for
+          productive mornings.
+        </p>
+
+      </div>
+
+      <div className="work-card">
+
+        <div className="work-number">
+          03
+        </div>
+
+        <h3>Together They Create Balance</h3>
+
+        <p>
+          The result is calm, focused energy
+          without the heavy crash or jitteriness
+          of traditional energy drinks.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
       {/* EXPERIENCE */}
       <section className="experience" id="experience">
         <div className="exp-inner">
@@ -861,7 +998,7 @@ export default function App() {
             {[
               { icon: "☀️", title: "Morning Boost", text: "Wake up with clarity and warmth. CO-TEA sets a perfect tone for the day ahead." },
               { icon: "🧘", title: "Calm Focus", text: "The tea element keeps anxiety at bay while coffee sharpens your mind." },
-              { icon: "🌙", title: "Sustained All Day", text: "No afternoon crash—just consistent, gentle energy from dawn to dusk." },
+              { icon: "🌙", title: "Sustained Energy", text: "Enjoy consistent energy throughout the day without sudden crashes." },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 100}>
                 <div className="exp-tile">
@@ -875,6 +1012,73 @@ export default function App() {
         </div>
       </section>
 
+      
+
+      {/* TESTIMONIALS */}
+
+<section className="testimonials section soft-bg">
+  <div className="container">
+
+    <p className="section-tag center">
+      COMMUNITY LOVE
+    </p>
+
+    <h2 className="center">
+      Loved by Early CO-TEA Drinkers
+    </h2>
+
+    <div className="testimonials-grid">
+
+      <div className="testimonial-card">
+        <div className="stars">★★★★★</div>
+
+        <p className="testimonial-text">
+          “Finally, an energy drink that keeps me focused
+          without making me anxious. CO-TEA feels calm,
+          clean, and incredibly smooth.”
+        </p>
+
+        <div className="testimonial-user">
+          <h4>Sarath M.</h4>
+          <span>Madurai</span>
+        </div>
+      </div>
+
+      <div className="testimonial-card">
+        <div className="stars">★★★★★</div>
+
+        <p className="testimonial-text">
+          “The balance between tea and coffee is perfect.
+          I stay productive for hours without the usual
+          coffee crash.”
+        </p>
+
+        <div className="testimonial-user">
+          <h4>Murthy</h4>
+          <span>Salem</span>
+        </div>
+      </div>
+
+      <div className="testimonial-card">
+        <div className="stars">★★★★★</div>
+
+        <p className="testimonial-text">
+          “CO-TEA became part of my morning routine after
+          the first cup. Smooth taste, steady energy,
+          and a premium feel.”
+        </p>
+
+        <div className="testimonial-user">
+          <h4>Ganesh</h4>
+          <span>Krishnagiri</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
       {/* CTA */}
       <section className="cta-section" id="cta">
         <Reveal>
@@ -885,6 +1089,65 @@ export default function App() {
           </div>
         </Reveal>
       </section>
+      {/* FAQ SECTION */}
+<section className="faq-section">
+  <div className="container">
+    
+    <div className="faq-header">
+      <span className="section-label">FAQ</span>
+      <h2>Frequently Asked Questions</h2>
+      <p>
+        Everything you need to know about CO-TEA and the unique tea + coffee experience.
+      </p>
+    </div>
+
+    <div className="faq-grid">
+
+      <div className="faq-item">
+        <h3>What is CO-TEA?</h3>
+        <p>
+          CO-TEA is a unique fusion of tea and coffee crafted to deliver calmness and energy in one smooth drink.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h3>Does CO-TEA taste more like tea or coffee?</h3>
+        <p>
+          It offers a balanced flavor where the richness of coffee blends beautifully with the soothing aroma of tea.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h3>Will it give an energy crash?</h3>
+        <p>
+          No. CO-TEA is designed to provide smooth and sustained energy without the sudden crash.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h3>Is CO-TEA made from natural ingredients?</h3>
+        <p>
+          Yes. Our blend uses carefully selected natural tea leaves and premium coffee ingredients.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h3>Can I drink CO-TEA daily?</h3>
+        <p>
+          Absolutely. CO-TEA is crafted for everyday enjoyment and morning wellness rituals.
+        </p>
+      </div>
+
+      <div className="faq-item">
+        <h3>Who is CO-TEA for?</h3>
+        <p>
+          CO-TEA is perfect for people who want focus, calmness, rich taste, and long-lasting energy together.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       {/* FOOTER */}
       <footer className="footer" id="footer">
@@ -893,7 +1156,7 @@ export default function App() {
             <img src={LOGO_SRC} alt="CO-TEA" />
             <p className="footer-tagline">Premium Tea + Coffee Blend<br/>for Better Mornings</p>
             <div className="footer-social-icons">
-              <a className="social-icon" href="#" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <a className="social-icon" href="https://www.instagram.com/co.tea26/" target="_blank" rel="noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" strokeWidth="2"/>
                   <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/>
@@ -905,15 +1168,49 @@ export default function App() {
                   <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </a>
-              <a className="social-icon" href="#" target="_blank" rel="noreferrer" aria-label="WhatsApp">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </a>
+              <a
+  className="social-icon"
+  href="https://wa.me/918825888854"
+  target="_blank"
+  rel="noreferrer"
+  aria-label="WhatsApp"
+>
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+</a>
+              <a className="social-icon"  href="https://www.youtube.com/@co-teaofficial"target="_blank"rel="noreferrer"aria-label="YouTube">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 1.96C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M10 15l5-3-5-3v6z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+</a>
             </div>
           </div>
           <div>
-            <div className="footer-col-title">Navigate</div>
+            <div className="footer-col-title">Quick link</div>
             <ul className="footer-links">
               <li><a href="#home">Home</a></li>
               <li><a href="#about">About</a></li>
@@ -923,12 +1220,20 @@ export default function App() {
           </div>
           <div>
             <div className="footer-col-title">Get In Touch</div>
-            <ul className="footer-links">
-              <li><a href="#">hello@co-tea.com</a></li>
-              <li><a href="#" target="_blank">Instagram</a></li>
-              <li><a href="#" target="_blank">Facebook</a></li>
-              <li><a href="#" target="_blank">WhatsApp</a></li>
-            </ul>
+           <ul className="footer-links">
+
+  <li>
+    <a href="mailto:coteauniversenumber1@yahoo.com">
+      📧 coteauniversenumber1@yahoo.com
+    </a>
+  </li>
+
+  <li>
+    <a>📞 +91 88258 88854
+    </a>
+  </li>
+
+</ul>
           </div>
         </div>
         <div className="footer-bottom">
@@ -937,6 +1242,72 @@ export default function App() {
           </div>
         </div>
       </footer>
+      {/* CONTACT MODAL */}
+
+{showContact && (
+
+  <div
+    className="contact-modal"
+    onClick={() => setShowContact(false)}
+  >
+
+    <div
+      className="contact-popup"
+      onClick={(e) => e.stopPropagation()}
+    >
+
+      <button
+        className="close-modal"
+        onClick={() => setShowContact(false)}
+      >
+        ✕
+      </button>
+
+      <h2>Contact Us</h2>
+
+      <p>
+        We'd love to hear from you.
+      </p>
+<form className="popup-form" onSubmit={handleSubmit}>
+
+  <input
+    type="text"
+    placeholder="Your Name"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    required
+  />
+
+  <input
+    type="email"
+    placeholder="Your Email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    required
+  />
+
+  <textarea
+    rows="5"
+    placeholder="Your Message"
+    value={message}
+    onChange={(e) => setMessage(e.target.value)}
+    required
+  ></textarea>
+
+  <button
+    type="submit"
+    className="btn primary"
+  >
+    SEND MESSAGE
+  </button>
+
+</form>
+
+    </div>
+
+  </div>
+
+)}
     </>
   );
 }

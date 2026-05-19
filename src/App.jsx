@@ -879,7 +879,7 @@ const handleSubmit = async (e) => {
               A rich and unique taste with a soothing aroma calms you in an instant in the morning, bringing family together with a rich and simple drink.
             </p>
             <div style={{marginTop:"36px"}}>
-              <button className="btn-primary">Discover the Blend</button>
+              <button className="btn-primary" onClick={() => document.getElementById("cta").scrollIntoView({behavior:"smooth"})}>Taste the Experience</button>
             </div>
           </Reveal>
         </div>
@@ -1091,7 +1091,13 @@ const handleSubmit = async (e) => {
           <div className="cta-box">
             <h2>Make your mornings better<br/>with CO-TEA</h2>
             <p>One cup. Two worlds. Perfect balance.</p>
-            <button className="btn-primary">Order Now</button>
+            <button
+  className="btn primary"
+  onClick={() => setShowContact(true)}
+  style={{ textTransform: "uppercase" }}
+>
+  Discover the Blend
+</button>
           </div>
         </Reveal>
       </section>
